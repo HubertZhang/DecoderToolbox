@@ -5,6 +5,18 @@ def jump1(s=""):
     return (s[::2], s[1::2])
 
 
+def zigzag(s1="", s2=""):
+    r1=""
+    r2=""
+    for i in range(len(s1)):
+        if i % 2 == 0:
+            r1 += s1[i]
+            r2 += s2[i]
+        else:
+            r1 += s2[i]
+            r2 += s1[i]
+    return (r1, r2)
+
 def divide_string_by_2(s=""):
     return [s[2 * i:2 * i + 2] for i in range(int(len(s) / 2))]
 
