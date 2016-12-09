@@ -1,4 +1,4 @@
-from decoder.decoder import *
+from decoder.basic import *
 
 
 def encode_vigenere(cipher="", key=""):
