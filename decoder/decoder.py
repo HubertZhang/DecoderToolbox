@@ -60,8 +60,8 @@ def atbash_number(s="", zero_to_zero=True):
     return r
 
 
-def atbash(s=""):
-    return atbash_letter(atbash_number(s))
+def atbash(s="", zero_to_zero=True):
+    return atbash_letter(atbash_number(s, zero_to_zero=zero_to_zero))
 
 
 def lower_letter_to_number(s=""):
