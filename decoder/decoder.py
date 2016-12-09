@@ -1,4 +1,4 @@
-def jump1(s=""):
+def skip2(s=""):
     print("Jump result")
     print(s[::2])
     print(s[1::2])
@@ -6,8 +6,8 @@ def jump1(s=""):
 
 
 def zigzag(s1="", s2=""):
-    r1=""
-    r2=""
+    r1 = ""
+    r2 = ""
     for i in range(len(s1)):
         if i % 2 == 0:
             r1 += s1[i]
@@ -16,6 +16,7 @@ def zigzag(s1="", s2=""):
             r1 += s2[i]
             r2 += s1[i]
     return (r1, r2)
+
 
 def divide_string_by_2(s=""):
     return [s[2 * i:2 * i + 2] for i in range(int(len(s) / 2))]
@@ -84,7 +85,7 @@ def print_all_rot(s=""):
 def symbol_to_int(s=''):
     t = "!@#$%^&*()"
     y = "1234567890"
-    u = {t[i]:y[i] for i in range(10)}
+    u = {t[i]: y[i] for i in range(10)}
     r = ""
     for x in s:
         if x in t:
@@ -92,6 +93,7 @@ def symbol_to_int(s=''):
         else:
             r += x
     return r
+
 
 def rot(s="", i=1):
     r = ""

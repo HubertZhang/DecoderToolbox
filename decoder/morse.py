@@ -1,6 +1,6 @@
 import re
 
-morseAlphabet = {
+morse_alphabet = {
     "A": ".-",
     "B": "-...",
     "C": "-.-.",
@@ -40,31 +40,31 @@ morseAlphabet = {
     "0": "-----"
 }
 
-inverseMorseAlphabet = dict((v, k) for (k, v) in morseAlphabet.items())
-validMorse = set([x for x in morseAlphabet.keys() if
-                  x.replace(".", "=").replace("-", ".").replace("=", "-") in inverseMorseAlphabet.keys()])
+inverse_morse_alphabet = dict((v, k) for (k, v) in morse_alphabet.items())
+valid_morse_alphabet = set([x for x in morse_alphabet.keys() if
+                            x.replace(".", "=").replace("-", ".").replace("=", "-") in inverse_morse_alphabet.keys()])
 
 
 # parse a morse code string positionInString is the starting point for decoding
-def decodeMorse(code=""):
-    return ''.join([inverseMorseAlphabet[x] for x in re.split("[\\\s]", code)])
+def decode_morse(code=""):
+    return ''.join([inverse_morse_alphabet[x] for x in re.split("[\\\s]", code)])
 
 
 # encode a message in morse code, spaces between words are represented by '/'
-def encodeToMorse(message="", sep = " "):
-    return sep.join([morseAlphabet[x.upper()] for x in message])
+def encode_morse(message="", sep=" "):
+    return sep.join([morse_alphabet[x.upper()] for x in message])
 
 
-def flipByMorse(message=""):
-    return decodeMorse(flipByMorse(encodeToMorse(message)))
+def decode_by_flip_morse(message=""):
+    return decode_morse(decode_by_flip_morse(encode_morse(message)))
 
 
-def canBeReverse(message=""):
+def flip_morse_validation(message=""):
     for x in message:
-        if x not in validMorse:
+        if x not in valid_morse_alphabet:
             return False
     return True
 
 
-def flipMorse(message=""):
+def flip_morse_string(message=""):
     return message.replace(".", "=").replace("-", ".").replace("=", "-")

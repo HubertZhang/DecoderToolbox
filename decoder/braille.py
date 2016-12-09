@@ -1,4 +1,4 @@
-brailleChars = {
+braille_alphabet = {
     'a': '1',
     'b': '12',
     'c': '14',
@@ -37,18 +37,18 @@ brailleChars = {
     '0': '356',
 }
 
-reversedBrailleChar = dict((v, k) for (k, v) in brailleChars.items())
+reversed_braille_alphabet = dict((v, k) for (k, v) in braille_alphabet.items())
 
 
-def decodeBrailleChar(bits=""):
+def decode_braille_alphabet(bits=""):
     t = ""
     for i in range(6):
         if bits[i] == ".":
             t += str(i + 1)
-    return reversedBrailleChar[t]
+    return reversed_braille_alphabet[t]
 
 
-def readBrailleMorse(message=""):
+def print_braille_string(message=""):
     lines = [message[i::3] for i in range(3)]
     for l in lines:
         tmp = ""
@@ -61,4 +61,7 @@ def readBrailleMorse(message=""):
     for i in range(len(lines[0])):
         for j in range(3):
             r += lines[j][i]
-    return ''.join([decodeBrailleChar(r[a:a + 6]) for a in range(0, len(r), 6)])
+    return r
+
+def decode_braille_string(r = ""):
+    return ''.join([decode_braille_alphabet(r[a:a + 6]) for a in range(0, len(r), 6)])
