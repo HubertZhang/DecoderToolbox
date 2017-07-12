@@ -11,21 +11,24 @@ def generate_grid(s="", width=2):
     return r
 
 
-def read_all_grid(s):
+def read_all_grid(s, func=None):
     for i in range(2, int(len(s) / 2) + 1):
         if len(s) % i == 0:
-            read_all_direction(s, i)
+            read_all_direction(s, i, func)
             print('-' * 20)
 
 
-def read_all_direction(s, width):
+def read_all_direction(s, width, func=None):
     t = generate_grid(s, width=width)
     for x in t:
         print(''.join(x))
     print("R:")
     for start in ["ul", "ur", "bl", "br"]:
         for direction in ["x", "y"]:
-            print(read_grid(t, start=start, direction=direction))
+            if func is not None:
+                func(read_grid(t, start=start, direction=direction))
+            else:
+                print(read_grid(t, start=start, direction=direction))
 
 
 def read_string_grid(s="", width=2, start="ul", direction="x"):
