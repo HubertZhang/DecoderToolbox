@@ -78,6 +78,17 @@ def binary_to_int(s="00000111"):
     return int(s, base=2)
 
 
+def char_to_int(t):
+    temp = ""
+    for a in t:
+        q = ord(a.lower())
+        if ord('a') <= q <= ord('z'):
+            temp += str(q - ord('a'))
+        else:
+            temp += a
+    return temp
+
+
 def int_to_char(a=0):
     return chr(a + ord('a'))
 
@@ -110,6 +121,8 @@ def rot(s="", i=1):
             r += chr(ord('A') + (ord(l) - ord('A') + i) % 26)
         elif '0' <= l <= '9':
             r += chr(ord('0') + (ord(l) - ord('0') + i) % 10)
+        else:
+            r += l
     return r
 
 

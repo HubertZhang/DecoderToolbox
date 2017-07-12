@@ -37,7 +37,8 @@ morse_alphabet = {
     "7": "--...",
     "8": "---..",
     "9": "----.",
-    "0": "-----"
+    "0": "-----",
+    '':''
 }
 
 inverse_morse_alphabet = dict((v, k) for (k, v) in morse_alphabet.items())
@@ -47,7 +48,13 @@ valid_morse_alphabet = set([x for x in morse_alphabet.keys() if
 
 # parse a morse code string positionInString is the starting point for decoding
 def decode_morse(code=""):
-    return ''.join([inverse_morse_alphabet[x] for x in re.split("[/\\s]", code)])
+    ret = ''
+    for x in re.split("[/\\s]", code):
+        try:
+            ret += inverse_morse_alphabet[x]
+        except KeyError:
+            ret += "*"
+    return ret
 
 
 # encode a message in morse code, spaces between words are represented by '/'
@@ -68,3 +75,7 @@ def flip_morse_validation(message=""):
 
 def flip_morse_string(message=""):
     return message.replace(".", "=").replace("-", ".").replace("=", "-")
+
+
+def convert_morse_to_binary(message=""):
+    return message.replace(".", "1").replace("-", "0")
