@@ -108,8 +108,15 @@ def rot(s="", i=1):
 
 
 def mirror(s=""):
-    ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
-    new = "0987654321poiuytrewq;lkjhgfdsa/.,mnbvcxzPOIUYTREWQ:LKJHGFDSA?><MNBVCXZ"
+    ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
+    new = "0987654321poiuytrewq;lkjhgfdsa/.,mnbvcxz)(*&^%$#@!POIUYTREWQ:LKJHGFDSA?><MNBVCXZ"
+    cov = {ori[i]: new[i] for i in range(len(ori))}
+    return ''.join([cov[x] for x in s])
+
+
+def vmirror(s=""):
+    ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
+    new = "zxcvbnm,./asdfghjkl;qwertyuiop1234567890ZXCVBNM<>?ASDFGHJKL:QWERTYUIOP!@#$%^&*()"
     cov = {ori[i]: new[i] for i in range(len(ori))}
     return ''.join([cov[x] for x in s])
 
