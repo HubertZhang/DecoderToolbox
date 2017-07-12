@@ -70,6 +70,13 @@ def atbash(s="", zero_to_zero=True):
     return atbash_letter(atbash_number(s, zero_to_zero=zero_to_zero))
 
 
+def hex_atbash(s):
+    r = ""
+    for l in s:
+        r += hex(15 - int(l, 16))[2:]
+    return r
+
+
 def lower_letter_to_number(s=""):
     return [ord(l) - ord('a') for l in s]
 
