@@ -18,12 +18,18 @@ def zigzag(s1="", s2=""):
     return (r1, r2)
 
 
-def divide_string_by_2(s=""):
-    return [s[2 * i:2 * i + 2] for i in range(int(len(s) / 2))]
+def divide_string(s="", skip=2):
+    ret = []
+    for i in range(0, len(s), skip):
+        if i + skip > len(s):
+            ret.append(s[i:])
+        else:
+            ret.append(s[i:i + skip])
+    return ret
 
 
-def divide_number_string(s=""):
-    return [int(s[2 * i:2 * i + 2]) for i in range(int(len(s) / 2))]
+def divide_number_string(s="", skip=2, base=10):
+    return [int(x, base) for x in divide_string(s, skip)]
 
 
 def polybius(numbers=[]):
