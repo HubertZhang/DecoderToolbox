@@ -85,7 +85,11 @@ def binary_to_int(s="00000111"):
     return int(s, base=2)
 
 
-def char_to_int(t):
+def char_to_int_str(t):
+    return "".join([str(char_to_int(x)) for x in t])
+
+
+def char_to_int(t="0"):
     temp = ""
     for a in t:
         q = ord(a.lower())
@@ -93,7 +97,7 @@ def char_to_int(t):
             temp += str(q - ord('a'))
         else:
             temp += a
-    return temp
+    return int(temp)
 
 
 def int_to_char(a=0):
@@ -132,6 +136,18 @@ def rot(s="", i=1):
             r += l
     return r
 
+
+def rot_by_char(s="", i="a", reverse=False):
+    i = i.lower()
+    if '0' <= i <= '9':
+        i = int(i)
+    elif 'a' <= i <= 'm':
+        i = ord(i) - ord('a')
+    else:
+        i = ord(i) - ord('a') - 26
+    if reverse:
+        i = -i
+    return rot(s, i)
 
 def mirror(s=""):
     ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
