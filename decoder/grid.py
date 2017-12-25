@@ -11,7 +11,7 @@ def generate_grid(s="", width=2):
     return r
 
 
-def read_all_grid(s, func=None):
+def read_all_grid(s, func=print):
     for i in range(2, int(len(s) / 2) + 1):
         if len(s) % i == 0:
             read_all_direction(s, i, func)
