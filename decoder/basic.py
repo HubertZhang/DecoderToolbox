@@ -1,3 +1,6 @@
+from .util import PassValueDict
+
+
 def skip2(s=""):
     print("Jump result")
     print(s[::2])
@@ -113,7 +116,7 @@ def print_all_rot(s=""):
 def symbol_to_int(s=''):
     t = "!@#$%^&*()"
     y = "1234567890"
-    u = {t[i]: y[i] for i in range(10)}
+    u = PassValueDict({t[i]: y[i] for i in range(10)})
     r = ""
     for x in s:
         if x in t:
@@ -149,17 +152,18 @@ def rot_by_char(s="", i="a", reverse=False):
         i = -i
     return rot(s, i)
 
+
 def mirror(s=""):
     ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
     new = "0987654321poiuytrewq;lkjhgfdsa/.,mnbvcxz)(*&^%$#@!POIUYTREWQ:LKJHGFDSA?><MNBVCXZ"
-    cov = {ori[i]: new[i] for i in range(len(ori))}
+    cov = PassValueDict({ori[i]: new[i] for i in range(len(ori))})
     return ''.join([cov[x] for x in s])
 
 
 def vmirror(s=""):
     ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
     new = "zxcvbnm,./asdfghjkl;qwertyuiop1234567890ZXCVBNM<>?ASDFGHJKL:QWERTYUIOP!@#$%^&*()"
-    cov = {ori[i]: new[i] for i in range(len(ori))}
+    cov = PassValueDict({ori[i]: new[i] for i in range(len(ori))})
     return ''.join([cov[x] for x in s])
 
 

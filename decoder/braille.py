@@ -1,3 +1,5 @@
+from .util import default_dict_factory
+
 braille_alphabet = {
     'a': '1',
     'b': '12',
@@ -37,7 +39,7 @@ braille_alphabet = {
     '0': '356',
 }
 
-reversed_braille_alphabet = dict((v, k) for (k, v) in braille_alphabet.items())
+reversed_braille_alphabet = default_dict_factory(((v, k) for (k, v) in braille_alphabet.items()), default="?")
 
 
 def decode_braille_alphabet(bits=""):
@@ -63,5 +65,6 @@ def print_braille_string(message=""):
             r += lines[j][i]
     return r
 
-def decode_braille_string(r = ""):
+
+def decode_braille_string(r=""):
     return ''.join([decode_braille_alphabet(r[a:a + 6]) for a in range(0, len(r), 6)])

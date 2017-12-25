@@ -18,17 +18,14 @@ def read_all_grid(s, func=None):
             print('-' * 20)
 
 
-def read_all_direction(s, width, func=None):
+def read_all_direction(s, width, func=print):
     t = generate_grid(s, width=width)
     for x in t:
         print(''.join(x))
     print("R:")
     for start in ["ul", "ur", "bl", "br"]:
         for direction in ["x", "y"]:
-            if func is not None:
-                func(read_grid(t, start=start, direction=direction))
-            else:
-                print(read_grid(t, start=start, direction=direction))
+            func(read_grid(t, start=start, direction=direction))
 
 
 def read_string_grid(s="", width=2, start="ul", direction="x"):
@@ -36,7 +33,7 @@ def read_string_grid(s="", width=2, start="ul", direction="x"):
     return read_grid(t, start=start, direction=direction)
 
 
-def read_grid(t=[[]], start="ul", direction="x"):
+def read_grid(t=[""], start="ul", direction="x"):
     width = len(t[0])
     height = len(t)
     x_axis = None
