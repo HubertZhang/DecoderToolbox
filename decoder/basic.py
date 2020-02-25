@@ -1,11 +1,10 @@
+from typing import List
+
 from .util import PassValueDict
 
 
-def skip2(s=""):
-    print("Jump result")
-    print(s[::2])
-    print(s[1::2])
-    return (s[::2], s[1::2])
+def skip(s, n=2):
+    return [s[i::n] for i in range(n)]
 
 
 def zigzag(s1="", s2=""):
@@ -21,21 +20,21 @@ def zigzag(s1="", s2=""):
     return (r1, r2)
 
 
-def divide_string(s="", skip=2):
+def divide_string(s="", length=2):
     ret = []
-    for i in range(0, len(s), skip):
-        if i + skip > len(s):
+    for i in range(0, len(s), length):
+        if i + length > len(s):
             ret.append(s[i:])
         else:
-            ret.append(s[i:i + skip])
+            ret.append(s[i:i + length])
     return ret
 
 
-def divide_number_string(s="", skip=2, base=10):
-    return [int(x, base) for x in divide_string(s, skip)]
+def divide_number_string(s="", length=2, base=10):
+    return [int(x, base) for x in divide_string(s, length)]
 
 
-def polybius(numbers=[]):
+def polybius(numbers: List):
     polybius_square = ["abcde", "fghjk", "lmnop", "qrstu", "vwxyz"]
     return ''.join([polybius_square[int(x / 10) - 1][int(x % 10) - 1] for x in numbers])
 
@@ -126,48 +125,60 @@ def symbol_to_int(s=''):
     return r
 
 
-def rot(s="", i=1):
-    r = ""
-    for l in s:
-        if 'a' <= l <= 'z':
-            r += chr(ord('a') + (ord(l) - ord('a') + i) % 26)
-        elif 'A' <= l <= 'Z':
-            r += chr(ord('A') + (ord(l) - ord('A') + i) % 26)
-        elif '0' <= l <= '9':
-            r += chr(ord('0') + (ord(l) - ord('0') + i) % 10)
-        else:
-            r += l
-    return r
+def _construct_rot_charset_dict(charset: str):
+    return {x[1]: x[0] for x in enumerate(charset)}
 
 
-def rot_by_char(s="", i="a", reverse=False):
+_rot_charset = {x: _construct_rot_charset_dict(x) for x in [
+    "abcdefghijklmnopqrstuvwxyz",
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "01234567890"
+]}
+
+
+def rot(s="", i=1, charset=None):
+    if charset is not None:
+        d = _rot_charset[charset]
+        if d is None:
+            d = _construct_rot_charset_dict(charset)
+            _rot_charset[charset] = d
+        r = ""
+        for c in s:
+            assert c in charset
+            r += charset[(d[c] + i) % len(charset)]
+        return r
+    else:
+        r = ""
+        for c in s:
+            if 'a' <= c <= 'z':
+                r += chr(ord('a') + (ord(c) - ord('a') + i) % 26)
+            elif 'A' <= c <= 'Z':
+                r += chr(ord('A') + (ord(c) - ord('A') + i) % 26)
+            elif '0' <= c <= '9':
+                r += chr(ord('0') + (ord(c) - ord('0') + i) % 10)
+            else:
+                r += c
+        return r
+
+
+def rot_by_char(s="", i="a", reverse=False, charset=None):
     i = i.lower()
     if '0' <= i <= '9':
         i = int(i)
-    elif 'a' <= i <= 'm':
-        i = ord(i) - ord('a')
     else:
         i = ord(i) - ord('a') - 26
     if reverse:
         i = -i
-    return rot(s, i)
+    return rot(s, i, charset)
 
 
-def mirror(s=""):
-    ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
-    new = "0987654321poiuytrewq;lkjhgfdsa/.,mnbvcxz)(*&^%$#@!POIUYTREWQ:LKJHGFDSA?><MNBVCXZ"
-    cov = PassValueDict({ori[i]: new[i] for i in range(len(ori))})
-    return ''.join([cov[x] for x in s])
+numeral_map = tuple(zip(
+    (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+    ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
+))
 
 
-def vmirror(s=""):
-    ori = "1234567890qwertyuiopasdfghjkl;zxcvbnm,./!@#$%^&*()QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
-    new = "zxcvbnm,./asdfghjkl;qwertyuiop1234567890ZXCVBNM<>?ASDFGHJKL:QWERTYUIOP!@#$%^&*()"
-    cov = PassValueDict({ori[i]: new[i] for i in range(len(ori))})
-    return ''.join([cov[x] for x in s])
-
-
-def int_to_roman(input):
+def int_to_roman(i):
     """
     Convert an integer to Roman numerals.
 
@@ -211,21 +222,19 @@ def int_to_roman(input):
     >>> print int_to_roman(1999)
     MCMXCIX
     """
-    if type(input) != type(1):
-        raise TypeError("expected integer, got %s" % type(input))
-    if not 0 < input < 4000:
+    if isinstance(i, int):
+        raise TypeError("expected integer, got %s" % type(i))
+    if not 0 < i < 4000:
         raise ValueError("Argument must be between 1 and 3999")
-    ints = (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    nums = ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
-    result = ""
-    for i in range(len(ints)):
-        count = int(input / ints[i])
-        result += nums[i] * count
-        input -= ints[i] * count
-    return result
+    result = []
+    for integer, numeral in numeral_map:
+        count = i // integer
+        result.append(numeral * count)
+        i -= integer * count
+    return ''.join(result)
 
 
-def roman_to_int(input):
+def roman_to_int(n):
     """
     Convert a roman numeral to an integer.
 
@@ -252,31 +261,15 @@ def roman_to_int(input):
      ...
     ValueError: input is not a valid roman numeral: IL
     """
-    if type(input) != type(""):
-        raise TypeError("expected string, got %s" % type(input))
-    input = input.upper()
-    nums = ['M', 'D', 'C', 'L', 'X', 'V', 'I']
-    ints = [1000, 500, 100, 50, 10, 5, 1]
-    places = []
-    for c in input:
-        if not c in nums:
-            raise ValueError("input is not a valid roman numeral: %s" % input)
-    for i in range(len(input)):
-        c = input[i]
-        value = ints[nums.index(c)]
-        # If the next place holds a larger number, this value is negative.
-        try:
-            nextvalue = ints[nums.index(input[i + 1])]
-            if nextvalue > value:
-                value *= -1
-        except IndexError:
-            # there is no next place.
-            pass
-        places.append(value)
-    sum = 0
-    for n in places: sum += n
-    # Easiest test for validity...
-    if int_to_roman(sum) == input:
-        return sum
+    if isinstance(n, str):
+        raise TypeError("expected string, got %s" % type(n))
+    n = n.upper()
+    i = result = 0
+    for integer, numeral in numeral_map:
+        while n[i:i + len(numeral)] == numeral:
+            result += integer
+            i += len(numeral)
+    if int_to_roman(result) == n:
+        return result
     else:
         raise ValueError('input is not a valid roman numeral: %s' % input)
